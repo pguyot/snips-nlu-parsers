@@ -54,7 +54,7 @@ impl GazetteerParser<BuiltinGazetteerEntityKind> {
         &mut self,
         entity_kind: BuiltinGazetteerEntityKind,
         entity_values: impl Iterator<Item = EntityValue>,
-    ) -> Result<()> {
+    ) -> Result<Vec<u32>> {
         self.entity_parsers
             .iter_mut()
             .find(|entity_parser| entity_parser.entity_identifier == entity_kind)
@@ -147,7 +147,7 @@ where
             .map(|parser| {
                 Ok(parser
                     .parser
-                    .run(&sentence.to_lowercase(), max_alternative_resolved_values)?
+                    .run(&sentence.to_lowercase(), max_alternative_resolved_values)
                     .into_iter()
                     .map(|parsed_value| GazetteerEntityMatch {
                         value: substring_with_char_range(sentence.to_string(), &parsed_value.range),
